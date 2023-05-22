@@ -1,0 +1,394 @@
+# DS Assignment 1
+"""
+
+import pandas as pd
+
+dataset = pd.read_csv(r'https://github.com/datasciencedojo/datasets/raw/master/titanic.csv')
+
+dataset.head()
+
+dataset.isnull().sum()
+
+dataset.describe()
+
+dataset.dtypes
+
+dataset['Fare'] = dataset['Fare'].fillna(0).astype('int64')
+
+dataset['Age'] = dataset['Age'].fillna(0).astype('int64')
+
+dataset.dtypes
+
+dataset['Sex'].replace(['female','male'],[0,1], inplace=True)
+
+dataset
+
+
+
+# DS Assignment 2
+"""
+df = pd.read_csv("/content/drive/MyDrive/DS assignment/studentdataset.csv")
+
+
+
+missing_values = df.isnull().sum()
+
+missing_values
+
+
+
+
+for col in df.columns:
+    unique_values = df[col].unique()
+    print(f"Column '{col}' has {len(unique_values)}")
+
+
+q1 = df.quantile(0.25)
+q3 = df.quantile(0.75)
+
+iqr = q3 - q1
+
+upbd = q1 - (1.5*iqr)
+lobd = q3 + (1.5*iqr)
+
+outliers = ((df<lobd)| (df>upbd)).sum()
+
+outliers
+
+
+print(df.isnull().sum())
+
+
+df.fillna(df.mean(), inplace=True)
+
+
+# DS Assignment 3
+
+
+"""
+
+import pandas as pd
+
+df = pd.read_csv('https://github.com/sudarshan-koirala/Salary-Prediciton-based-on-Years-of-Experience/raw/master/Salary_Data.csv')
+
+df.head()
+
+df.info()
+
+df.describe()
+
+df.min()
+
+df.max()
+
+df.mean()
+
+df.median()
+
+df.std()
+
+df.groupby(['YearsExperience']).count()
+
+"""##2"""
+
+iris = pd.read_csv('https://github.com/YBI-Foundation/Dataset/raw/main/IRIS.csv')
+
+iris.head()
+
+iris.groupby(['species']).mean()
+
+iris.groupby(['species']).std()
+
+iris.groupby(['species']).describe().transpose()
+
+iris.describe()
+
+
+
+
+# DS Assignment 4
+"""
+
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv('https://github.com/YBI-Foundation/Dataset/raw/main/Boston.csv')
+
+df
+
+df.head(len(df))
+
+df.head()
+
+df.info()
+
+df.describe()
+
+df.columns
+
+y = df[['MEDV']]
+
+X = df.drop(['MEDV'], axis=1)
+
+from sklearn.preprocessing import MinMaxScaler
+mm = MinMaxScaler()
+
+X1 = pd.DataFrame(mm.fit_transform(X))
+
+X1
+
+X1.describe()
+
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X1, y, random_state=2529)
+
+from sklearn.linear_model import LinearRegression
+model = LinearRegression()
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+from sklearn.metrics import  mean_absolute_percentage_error, mean_squared_error, mean_absolute_error
+
+mean_absolute_percentage_error(y_test, y_pred)
+
+mean_squared_error(y_test, y_pred)
+
+mean_absolute_error(y_test, y_pred)
+
+y_pred
+
+
+
+DS  5
+
+
+
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv('https://github.com/shivang98/Social-Network-ads-Boost/raw/master/Social_Network_Ads.csv')
+
+df
+
+df.info()
+
+df['Purchased'].value_counts()
+
+df = pd.get_dummies(df)
+
+df.info()
+
+df.columns
+
+y = df['Purchased']
+
+X = df.drop(['Purchased', 'User ID'], axis=1)
+
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X,y)
+
+from sklearn.linear_model import LogisticRegression
+model = LogisticRegression()
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+from sklearn.metrics import classification_report, confusion_matrix
+
+print(classification_report(y_test, y_pred))
+
+
+
+confusion_matrix(y_test, y_pred)
+
+
+
+
+#DS 666
+
+import pandas as pd
+
+df = pd.read_csv('https://github.com/YBI-Foundation/Dataset/raw/main/IRIS.csv')
+
+df.head()
+
+df.describe()
+
+df.info()
+
+X = df.drop(['species'], axis=1)
+y = df['species']
+
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X,y, random_state=123)
+
+from sklearn.naive_bayes import GaussianNB
+gaussian = GaussianNB()
+
+gaussian.fit(X_train, y_train)
+
+y_pred = gaussian.predict(X_test)
+
+y_pred
+
+from sklearn.metrics import confusion_matrix
+confusion_matrix(y_test, y_pred)
+
+from sklearn.metrics import accuracy_score, precision_score, recall_score
+
+accuracy_score(y_test, y_pred)
+
+precision_score(y_test, y_pred, average='micro')
+
+recall_score(y_test, y_pred,average='micro')
+
+
+#DS Assignment 7
+"""
+
+#Tokenization
+import nltk
+nltk.download('punkt')
+
+word_data = "It originated from the idea that there are readers who prefer learning new skills from the comforts of their drawing rooms"
+nltk_tokens = nltk.word_tokenize(word_data)
+print (nltk_tokens)
+
+# Stopwords removal
+import nltk
+nltk.download('stopwords')
+
+from nltk.corpus import stopwords
+en_stops = set(stopwords.words('english'))
+
+all_words = ['There', 'is', 'a', 'tree','near','the','river']
+for word in all_words: 
+    if word not in en_stops:
+        print(word)
+
+#Tagging words
+import nltk
+nltk.download('averaged_perceptron_tagger')
+
+text = nltk.word_tokenize("A Python is a serpent which eats eggs from the nest")
+tagged_text=nltk.pos_tag(text)
+print(tagged_text)
+
+# Steaming
+
+import nltk
+from nltk.stem.porter import PorterStemmer
+from nltk.stem.lancaster import LancasterStemmer
+from nltk.stem import SnowballStemmer 
+
+porter_stemmer = PorterStemmer()
+lanca_stemmer = LancasterStemmer()
+sb_stemmer = SnowballStemmer("english",)
+
+word_data = "Aging head of famous crime family decides to transfer his position to one of his subalterns" 
+# First Word tokenization
+nltk_tokens = nltk.word_tokenize(word_data)
+#Next find the roots of the word
+print ('***PorterStemmer****\n')
+for w_port in nltk_tokens:
+   print (("Actual: %s  || Stem: %s") % (w_port,porter_stemmer.stem(w_port)))
+
+print ('\n***LancasterStemmer****\n' )   
+for w_lanca in nltk_tokens:
+      print (("Actual: %s  || Stem: %s" ) % (w_lanca,lanca_stemmer.stem(w_lanca)))
+print ('\n***SnowballStemmer****\n')
+
+for w_snow in nltk_tokens:
+      print (("Actual: %s  || Stem: %s")  % (w_snow,sb_stemmer.stem(w_snow)))
+
+
+
+#DS8888
+
+
+
+import pandas as pd
+
+df = pd.read_csv('https://d17h27t6h515a5.cloudfront.net/topher/2016/September/57e9a84c_titanic-data/titanic-data.csv')
+
+df.head()
+
+df.describe()
+
+df.info()
+
+import seaborn as sns
+
+sns.countplot(x='Sex', data=df)
+
+sns.barplot(x='Sex', y='Survived', data=df)
+
+sns.barplot(x='Pclass', y='Survived', data=df)
+
+sns.pairplot(df, hue='Survived')
+
+sns.catplot(x='Sex', col = 'Embarked', data=df , kind = 'count')
+
+sns.heatmap(df.corr(),annot=True, linewidths=0.2)
+
+sns.histplot(x='Age', y='Fare', data=df,)
+
+
+
+DS Assig no 9
+"""
+
+import pandas as pd
+import seaborn as sns
+
+titanic = pd.read_csv('https://raw.githubusercontent.com/dphi-official/Datasets/master/titanic_data.csv')
+
+titanic
+
+# Plot the box plot
+sns.boxplot(x='Sex', y='Age', hue='Survived', data=titanic)
+
+
+DS Assig no 10
+"""
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+data = pd.read_csv('https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/0e7a9b0a5d22642a06d3d5b9bcbad9890c8ee534/iris.csv')
+data
+
+sns.histplot(x = data['sepal_length'])
+
+sns.histplot(x = data['sepal_length'])
+
+sns.histplot(x = data['petal_length'])
+
+sns.histplot(x = data['petal_width'], kde=True)
+
+sns.boxplot(x='sepal_length',y='species',data=data)
+
+
+
+
+DS12
+
+spark-shell
+
+object scala_program{
+val data=Seq(('aman', 23),('raj',35))
+val df = spark.createDataframe(data).toDF("name", "age")
+df.show()
+}
+
+scala_program
+
+
